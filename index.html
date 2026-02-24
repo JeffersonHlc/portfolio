@@ -4,21 +4,27 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Jefferson Lopes | Desenvolvedor Web</title>
-  <meta name="description" content="Portfólio de Jefferson Lopes — Desenvolvedor Web (PHP, JavaScript, SQL). Interesse em produtos digitais, plataformas e experiência do usuário." />
+  <meta name="description" content="Portfólio de Jefferson Lopes — Desenvolvedor Web (PHP, JavaScript, SQL). Foco em interfaces, sistemas e dados." />
 
   <style>
     :root{
-      --bg:#070A13;
-      --panel:#0B1022;
-      --panel2:#0B142E;
-      --text:#E6EAF2;
-      --muted:#A9B3C7;
-      --line:rgba(255,255,255,.08);
-      --a:#27C0FF;   /* neon azul */
-      --b:#8B5CF6;   /* roxo */
-      --c:#19F2C6;   /* ciano */
-      --shadow: 0 14px 50px rgba(0,0,0,.55);
-      --r: 18px;
+      /* Monocromático premium */
+      --bg0:#07090F;      /* preto azulado */
+      --bg1:#0B0F1A;      /* profundidade */
+      --ice:#EAF0FF;      /* branco gelo */
+      --text:#EAF0FF;
+      --muted:rgba(234,240,255,.70);
+      --muted2:rgba(234,240,255,.55);
+      --line:rgba(255,255,255,.10);
+
+      /* “accent” bem discreto (cinza frio) */
+      --acc1:rgba(255,255,255,.08);
+      --acc2:rgba(255,255,255,.03);
+
+      --r:18px;
+      --shadow: 0 18px 70px rgba(0,0,0,.55);
+
+      --ease: cubic-bezier(.2,.9,.2,1);
     }
 
     *{box-sizing:border-box}
@@ -26,37 +32,58 @@
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background:
-        radial-gradient(1000px 600px at 20% 10%, rgba(39,192,255,.16), transparent 55%),
-        radial-gradient(800px 520px at 80% 18%, rgba(139,92,246,.16), transparent 60%),
-        radial-gradient(900px 700px at 50% 90%, rgba(25,242,198,.08), transparent 60%),
-        var(--bg);
       color:var(--text);
       overflow-x:hidden;
+
+      /* fundo monocromático com gradiente */
+      background:
+        radial-gradient(1000px 650px at 15% 10%, rgba(255,255,255,.06), transparent 60%),
+        radial-gradient(900px 550px at 85% 18%, rgba(255,255,255,.05), transparent 62%),
+        radial-gradient(900px 650px at 50% 95%, rgba(255,255,255,.04), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+    }
+
+    /* “aurora” monocromática discreta */
+    body::before{
+      content:"";
+      position:fixed; inset:-60px;
+      pointer-events:none;
+      z-index:0;
+      background:
+        radial-gradient(700px 300px at 20% 25%, rgba(255,255,255,.08), transparent 62%),
+        radial-gradient(650px 300px at 78% 25%, rgba(255,255,255,.06), transparent 62%),
+        radial-gradient(600px 380px at 55% 75%, rgba(255,255,255,.05), transparent 60%);
+      filter: blur(10px);
+      opacity:.9;
+      animation: aurora 12s ease-in-out infinite alternate;
+    }
+    @keyframes aurora{
+      0%{ transform: translate3d(-1.2%,-1%,0) scale(1.02); }
+      100%{ transform: translate3d(1.2%,1%,0) scale(1.05); }
     }
 
     a{color:inherit; text-decoration:none}
-    .wrap{max-width:1060px; margin:0 auto; padding:26px 18px 60px}
+    .wrap{max-width:1100px; margin:0 auto; padding:26px 18px 64px; position:relative; z-index:2;}
 
-    /* Top Nav */
+    /* TOP NAV */
     .nav{
       display:flex; align-items:center; justify-content:space-between;
       gap:14px; padding:12px 14px;
       border:1px solid var(--line);
       border-radius:999px;
-      background: rgba(11,16,34,.55);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 35px rgba(0,0,0,.35);
+
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      backdrop-filter: blur(14px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+
       position:sticky; top:14px; z-index:20;
+      transform: translateZ(0);
     }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight:700; letter-spacing:.2px;
-    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:750; letter-spacing:.2px;}
     .dot{
       width:10px; height:10px; border-radius:50%;
-      background: linear-gradient(135deg, var(--a), var(--b));
-      box-shadow: 0 0 18px rgba(39,192,255,.6);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.25));
+      box-shadow: 0 0 18px rgba(255,255,255,.18);
     }
     .links{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
     .chip{
@@ -65,55 +92,50 @@
       border-radius:999px;
       color:var(--muted);
       font-size:13px;
-      transition: .2s ease;
+      transition: .2s var(--ease);
+      background: rgba(255,255,255,.02);
     }
     .chip:hover{
-      border-color: rgba(39,192,255,.35);
       color: var(--text);
-      box-shadow: 0 0 0 4px rgba(39,192,255,.08);
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
     }
 
-    /* Hero */
-    .hero{
-      margin-top:18px;
-      border-radius: calc(var(--r) + 10px);
+    /* “Cards” base + 3D */
+    .card{
       border:1px solid var(--line);
-      background:
-        linear-gradient(180deg, rgba(11,20,46,.72), rgba(11,16,34,.62)),
-        radial-gradient(900px 320px at 40% 0%, rgba(39,192,255,.18), transparent 60%),
-        radial-gradient(700px 320px at 70% 10%, rgba(139,92,246,.14), transparent 60%);
-      box-shadow: var(--shadow);
-      overflow:hidden;
+      border-radius: var(--r);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      box-shadow: 0 12px 40px rgba(0,0,0,.25);
       position:relative;
+      overflow:hidden;
+      transform-style: preserve-3d;
+      transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
     }
-    .hero::before{
+
+    /* brilho sutil no card */
+    .card::after{
       content:"";
       position:absolute; inset:-2px;
       background:
-        repeating-linear-gradient(90deg, rgba(255,255,255,.03), rgba(255,255,255,.03) 1px, transparent 1px, transparent 44px);
-      opacity:.35;
+        radial-gradient(500px 220px at var(--mx,50%) var(--my,30%), rgba(255,255,255,.09), transparent 60%);
+      opacity:0;
+      transition: opacity .25s var(--ease);
       pointer-events:none;
       mix-blend-mode: screen;
     }
-    .hero::after{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        radial-gradient(560px 240px at 20% 30%, rgba(39,192,255,.22), transparent 70%),
-        radial-gradient(540px 240px at 80% 40%, rgba(139,92,246,.18), transparent 70%);
-      filter: blur(2px);
-      opacity:.9;
-      pointer-events:none;
-    }
+    .card:hover::after{ opacity:1; }
+
+    /* HERO */
+    .hero{ margin-top:18px; border-radius: calc(var(--r) + 10px); }
     .hero-inner{
-      position:relative;
       padding:38px 22px;
       display:grid;
       grid-template-columns: 1.2fr .8fr;
       gap:18px;
       align-items:center;
     }
-
     .kicker{
       display:inline-flex; align-items:center; gap:10px;
       font-size:13px; color:var(--muted);
@@ -121,43 +143,39 @@
       border:1px solid var(--line);
       border-radius:999px;
       width:max-content;
-      background: rgba(7,10,19,.35);
+      background: rgba(0,0,0,.18);
     }
     .pulse{
       width:8px;height:8px;border-radius:50%;
-      background: var(--c);
-      box-shadow: 0 0 12px rgba(25,242,198,.7);
-      animation: pulse 1.6s infinite ease-in-out;
+      background: rgba(255,255,255,.85);
+      box-shadow: 0 0 12px rgba(255,255,255,.18);
+      animation: pulse 1.7s infinite ease-in-out;
     }
     @keyframes pulse{
       0%,100%{transform:scale(1); opacity:1}
-      50%{transform:scale(1.35); opacity:.65}
+      50%{transform:scale(1.35); opacity:.62}
     }
-
     h1{
       margin:14px 0 10px;
-      font-size: clamp(28px, 3.8vw, 44px);
+      font-size: clamp(28px, 3.8vw, 46px);
       line-height:1.06;
-      letter-spacing:-.5px;
+      letter-spacing:-.6px;
+    }
+    .accent{
+      background: linear-gradient(135deg, rgba(255,255,255,.96), rgba(255,255,255,.35));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      font-weight:900;
     }
     .subtitle{
       margin:0;
       color:var(--muted);
-      font-size: 15.5px;
-      line-height:1.6;
-      max-width: 62ch;
+      font-size: 15.6px;
+      line-height:1.65;
+      max-width: 64ch;
     }
-    .high{
-      color:var(--text);
-      font-weight:700;
-    }
-    .accent{
-      background: linear-gradient(135deg, var(--a), var(--b));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-      font-weight:800;
-    }
+    .high{ color:var(--text); font-weight:750; }
 
     .cta{
       display:flex; gap:10px; flex-wrap:wrap;
@@ -169,143 +187,127 @@
       padding:11px 14px;
       border-radius:14px;
       border:1px solid var(--line);
-      background: rgba(7,10,19,.25);
+      background: rgba(255,255,255,.04);
       color:var(--text);
-      font-weight:650;
+      font-weight:700;
       font-size:14px;
-      transition:.2s ease;
+      transition:.2s var(--ease);
       cursor:pointer;
+      transform: translateZ(0);
     }
     .btn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(39,192,255,.35);
-      box-shadow: 0 0 0 4px rgba(39,192,255,.08);
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.07);
+      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
     }
     .btn.primary{
-      background: linear-gradient(135deg, rgba(39,192,255,.28), rgba(139,92,246,.25));
-      border-color: rgba(39,192,255,.35);
+      background: linear-gradient(135deg, rgba(255,255,255,.92), rgba(255,255,255,.25));
+      color: #05070D;
+      border: 0;
+      box-shadow:
+        0 16px 40px rgba(0,0,0,.35),
+        0 0 0 4px rgba(255,255,255,.08);
     }
+    .btn.primary:hover{ box-shadow: 0 18px 48px rgba(0,0,0,.38), 0 0 0 5px rgba(255,255,255,.10); }
     .btn svg{width:16px; height:16px; opacity:.95}
 
-    .cardRight{
-      border:1px solid var(--line);
-      background: rgba(7,10,19,.35);
-      border-radius: var(--r);
-      padding:16px;
-    }
+    /* right “destaques” */
+    .cardRight{ padding:16px; }
     .miniTitle{
-      color:var(--muted);
+      color:var(--muted2);
       font-size:12px;
       letter-spacing:.18em;
       text-transform:uppercase;
       margin:0 0 10px;
     }
-    .list{
-      margin:0; padding:0; list-style:none;
-      display:grid; gap:10px;
-    }
+    .list{ margin:0; padding:0; list-style:none; display:grid; gap:10px; }
     .li{
       display:flex; align-items:flex-start; gap:10px;
       padding:10px 10px;
       border-radius: 14px;
-      border:1px solid rgba(255,255,255,.06);
-      background: rgba(11,16,34,.35);
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.16);
     }
     .badge{
-      width:26px; height:26px;
+      width:28px; height:28px;
       display:grid; place-items:center;
       border-radius:10px;
-      background: linear-gradient(135deg, rgba(39,192,255,.25), rgba(139,92,246,.22));
-      border:1px solid rgba(39,192,255,.22);
+      background: linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.10);
       flex: 0 0 auto;
     }
     .li b{display:block; font-size:13.8px}
     .li span{display:block; margin-top:2px; color:var(--muted); font-size:13px; line-height:1.35}
 
-    /* Sections */
+    /* SECTIONS */
     .grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:14px;
       margin-top:16px;
     }
-    .section{
-      margin-top:16px;
-      padding: 16px;
-      border-radius: var(--r);
-      border:1px solid var(--line);
-      background: rgba(11,16,34,.45);
-      box-shadow: 0 12px 40px rgba(0,0,0,.25);
-    }
-    .section h2{
-      margin:0 0 10px;
-      font-size:18px;
-      letter-spacing:.2px;
-    }
-    .section p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.65;
-      font-size:14.5px;
-    }
+    .section{ margin-top:16px; padding: 16px; }
+    .section h2{ margin:0 0 10px; font-size:18px; letter-spacing:.2px; }
+    .section p{ margin:0; color:var(--muted); line-height:1.7; font-size:14.7px; }
 
+    /* Projetos */
     .projects{
       margin-top:14px;
       display:grid;
       grid-template-columns: repeat(3, 1fr);
       gap:12px;
     }
-    .proj{
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.08);
-      background: linear-gradient(180deg, rgba(11,20,46,.45), rgba(7,10,19,.25));
-      padding:14px;
-      transition:.2s ease;
-      position:relative;
-      overflow:hidden;
-      min-height: 150px;
-    }
-    .proj:hover{
-      transform: translateY(-2px);
-      border-color: rgba(39,192,255,.28);
-      box-shadow: 0 0 0 4px rgba(139,92,246,.06);
-    }
+    .proj{ padding:14px; min-height: 170px; }
+    .proj h3{ margin:0 0 8px; font-size:15.6px; }
+    .proj p{ margin:0; color:var(--muted); font-size:13.9px; line-height:1.55; }
     .tagrow{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
     .tag{
       font-size:12px;
       color:var(--muted);
       padding:6px 10px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(7,10,19,.25);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.12);
     }
-    .proj h3{
-      margin:0 0 8px;
-      font-size:15.5px;
-    }
-    .proj p{margin:0; color:var(--muted); font-size:13.8px; line-height:1.5}
     .proj a{
       display:inline-flex;
       margin-top:12px;
-      color: var(--a);
-      font-weight:650;
+      color: rgba(255,255,255,.92);
+      font-weight:750;
       font-size:13.5px;
       gap:8px;
       align-items:center;
+      opacity:.9;
     }
-    .proj a:hover{filter: brightness(1.08)}
+    .proj a:hover{opacity:1}
 
     /* Footer */
     footer{
-      margin-top:18px;
-      color: var(--muted);
+      margin-top:22px;
+      color: var(--muted2);
       text-align:center;
       font-size:13px;
       padding: 16px 6px;
       opacity:.9;
     }
 
-    /* Responsive */
+    /* Scroll reveal */
+    .reveal{
+      opacity:0;
+      transform: translateY(18px) rotateX(8deg);
+      transform-origin: 50% 60%;
+      transition: opacity .7s var(--ease), transform .7s var(--ease);
+      will-change: transform, opacity;
+    }
+    .reveal.show{
+      opacity:1;
+      transform: translateY(0) rotateX(0);
+    }
+
+    /* 3D hover tilt (aplica em cards) */
+    .tilt{ will-change: transform; }
+
+    /* Responsivo */
     @media (max-width: 920px){
       .hero-inner{grid-template-columns: 1fr; padding:28px 18px}
       .projects{grid-template-columns: 1fr}
@@ -317,34 +319,37 @@
 
 <body>
   <div class="wrap">
-    <div class="nav">
+
+    <div class="nav reveal">
       <div class="brand">
         <span class="dot"></span>
         <span>Jefferson Lopes</span>
       </div>
       <div class="links">
         <a class="chip" href="#sobre">Sobre</a>
+        <a class="chip" href="#experiencia">Experiência</a>
+        <a class="chip" href="#formacao">Formação</a>
         <a class="chip" href="#projetos">Projetos</a>
         <a class="chip" href="#skills">Skills</a>
         <a class="chip" href="#contato">Contato</a>
       </div>
     </div>
 
-    <section class="hero" id="topo">
+    <section class="card hero tilt reveal" id="topo">
       <div class="hero-inner">
         <div>
-          <div class="kicker"><span class="pulse"></span>• Web/Plataformas • SP</div>
+          <div class="kicker"><span class="pulse"></span> Web/Plataformas • SP</div>
 
           <h1>
             Desenvolvedor <span class="accent">Web</span> focado em
-            <span class="high">interfaces</span>, <span class="high">sistemas</span> e <span class="high">experiência do usuário</span>.
+            <span class="high">interfaces</span>, <span class="high">sistemas</span> e <span class="high">dados</span>.
           </h1>
 
           <p class="subtitle">
             Trabalho com <span class="high">PHP</span>, <span class="high">JavaScript</span> e <span class="high">SQL</span>
-            em aplicações web e sistemas internos. Gosto de transformar necessidades do dia a dia em soluções
-            <span class="high">simples</span>, <span class="high">organizadas</span> e <span class="high">fáceis de manter</span>.
-          </p>          
+            em aplicações web e sistemas internos — aprendendo e evoluindo na construção de soluções
+            <span class="high">simples</span>, <span class="high">organizadas</span> e <span class="high">fáceis de manter</span> para demandas reais.
+          </p>
 
           <div class="cta">
             <a class="btn primary" href="#projetos">
@@ -354,7 +359,7 @@
               Ver projetos
             </a>
 
-            <a class="btn" href="mailto:jeffersonhlcaria@gmail.com">
+            <a class="btn" href="mailto:jeffersonhlcaria@gmail.com?subject=Contato%20via%20Portfólio%20Jefferson%20Lopes&body=Olá%20Jefferson,%20vi%20seu%20portfólio%20e%20gostaria%20de%20conversar.">
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M4 7h16v10H4V7Z" stroke="currentColor" stroke-width="2" />
                 <path d="m4 8 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -373,17 +378,16 @@
           </div>
         </div>
 
-        <aside class="cardRight">
+        <aside class="card cardRight tilt reveal">
           <p class="miniTitle">Destaques</p>
           <ul class="list">
             <li class="li">
               <span class="badge">💻</span>
               <div>
                 <b>Web (Front + Back)</b>
-                <span>Interfaces, manutenção e evolução de sistemas com foco em clareza e usabilidade.</span>
+                <span>Interfaces e manutenção de sistemas com foco em clareza, consistência e usabilidade.</span>
               </div>
             </li>
-          
             <li class="li">
               <span class="badge">🗄️</span>
               <div>
@@ -391,127 +395,133 @@
                 <span>Consultas, relatórios e suporte a melhorias de dados (MySQL/PostgreSQL).</span>
               </div>
             </li>
-          
             <li class="li">
-              <span class="badge">🧩</span>
+              <span class="badge">📌</span>
               <div>
-                <b>Produto & UX</b>
-                <span>Interesse em plataformas digitais e experiência do usuário para entregar valor real.</span>
+                <b>Processo & Produto</b>
+                <span>Experiência administrativa ajuda a entender rotinas reais e transformar em solução.</span>
               </div>
             </li>
           </ul>
-          
         </aside>
       </div>
     </section>
 
     <div class="grid">
-      <section class="section" id="sobre">
+      <section class="card section tilt reveal" id="sobre">
         <h2>Sobre</h2>
         <p>
-            Sou Desenvolvedor Web Júnior na <b>Uniara</b>, atuando com desenvolvimento e manutenção de sistemas internos,
-            melhoria de interfaces e suporte a banco de dados. Procuro sempre por soluções diretas e aprender na prática.
-            <br><br>
-            Tenho interesse em <b>produtos digitais</b> e <b>plataformas online</b>, com atenção a performance, organização do código
-            e experiência do usuário — do requisito até a entrega.
-          </p>
+          Sou Desenvolvedor Web Júnior na <b>Universidade de Araraquara - Uniara</b>, atuando com manutenção e evolução de sistemas internos,
+          melhoria de interfaces e suporte a banco de dados.<br><br>
+          Minha trajetória é construída com evolução contínua dentro da mesma instituição:
+          <b>8 anos</b> como <b>Auxiliar Administrativo / Arquivista</b> (organização documental, processos e rotinas),
+          até a transição para desenvolvimento — unindo visão de negócio com tecnologia.<br>
+          Estou em início de carreira como desenvolvedor e busco crescer rápido com boas práticas, feedback e projetos reais.
+        </p>
       </section>
 
-      <section class="section">
+      <section class="card section tilt reveal" id="experiencia">
         <h2>Experiência</h2>
         <p>
           <b>Uniara — Desenvolvedor Web Júnior (Front-end e Back-end)</b><br>
-          Desenvolvimento e manutenção de sistemas internos, criação/melhoria de interfaces e consultas SQL.
-          <br><br>
-          <span style="color:var(--muted)">Diferencial:</span> progressão de carreira dentro da mesma instituição.
+          Desenvolvimento e manutenção de sistemas internos, criação/melhoria de telas, correções, novas funcionalidades e apoio a consultas SQL e relatórios.<br><br>
+          <b>Uniara — Auxiliar Administrativo / Arquivista (8 anos)</b><br>
+          Rotinas administrativas, organização e controle de documentos, padronização de processos e apoio às áreas usuárias.
         </p>
       </section>
     </div>
 
-    <section class="section" id="projetos">
-      <h2>Projetos (em evolução)</h2>
+    <section class="card section tilt reveal" id="formacao">
+      <h2>Formação</h2>
+      <p>
+        <b>Sistemas de Informação</b> — conclusão do curso 2025.<br>
+        Construindo base em desenvolvimento web e bancos de dados, aplicando em projetos e rotinas do dia a dia.
+    </section>
+
+    <section class="card section tilt reveal" id="projetos">
+      <h2>Projetos</h2>
+      <p>
+        Uma seleção objetiva do que faço no dia a dia (sem expor dados internos) e do que construo por conta.
+      </p>
 
       <div class="projects">
-        <div class="proj">
-          <h3>Portal/Rotinas Internas (Uniara)</h3>
+        <div class="card proj tilt reveal">
+          <h3>Portal / Rotinas Internas (Uniara)</h3>
           <p>
-            Atuação no desenvolvimento e evolução de sistemas internos corporativos, incluindo criação e melhoria de interfaces,
-            implementação de funcionalidades e suporte a consultas em banco de dados. Participação direta na manutenção
-            e estabilidade de rotinas utilizadas por diferentes setores da instituição.
-            </p>
-
+            Atuação na evolução de sistemas internos corporativos, com foco em melhoria de interfaces,
+            implementação de funcionalidades e suporte a consultas em banco de dados — sempre preservando confidencialidade.
+          </p>
           <div class="tagrow">
             <span class="tag">PHP</span><span class="tag">JavaScript</span><span class="tag">SQL</span>
           </div>
-          <a href="#contato" title="Podemos descrever melhor depois">
-            Detalhar melhor ↗
-          </a>
+          <a href="#case-uniara">Ver detalhes ↗</a>
         </div>
 
-        <div class="proj">
+        <div class="card proj tilt reveal">
           <h3>Portfólio (este site)</h3>
-          <p>Portfólio estático, leve e responsivo. Publicado com GitHub Pages e focado em apresentação profissional.</p>
-          <a href="https://jeffersonhlc.github.io/portfolio/" target="_blank" rel="noopener">
-            Abrir o site ↗
-          </a>          
+          <p>
+            Página estática com foco em performance e apresentação profissional, usando animações suaves e layout em cards.
+          </p>
+          <div class="tagrow">
+            <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span>
+          </div>
+          <a href="https://jeffersonhlc.github.io/portfolio/" target="_blank" rel="noopener">Abrir o site ↗</a>
         </div>
 
-        <div class="proj">
+        <div class="card proj tilt reveal">
           <h3>Projeto de Estudo: Dashboard</h3>
-          <p>Um mini-dashboard com tabelas/filtros para treinar front + SQL (podemos montar juntos).</p>
+          <p>
+            Mini-dashboard com tabelas e filtros para treinar front + SQL e organizar dados de forma clara.
+          </p>
           <div class="tagrow">
             <span class="tag">JS</span><span class="tag">SQL</span><span class="tag">UI</span>
           </div>
-          <a href="#contato">
-            Quero montar esse ↗
-          </a>
+          <a href="#contato">Quero montar esse ↗</a>
         </div>
       </div>
     </section>
 
-    <section class="section" id="case-uniara">
-        <h2>Case — Sistemas Internos (Uniara)</h2>
-        <p>
-          Atuação no desenvolvimento e evolução de sistemas internos corporativos, com foco em
-          melhoria de interfaces, implementação de funcionalidades e suporte a consultas em banco de dados.
-        </p>
-      
-        <p style="margin-top:10px">
-          <b>Principais atividades:</b><br>
-          • Ajustes e melhorias em interfaces web utilizadas por áreas administrativas<br>
-          • Implementação de novas funcionalidades conforme demandas internas<br>
-          • Criação e otimização de consultas SQL para suporte a processos operacionais<br>
-          • Suporte na manutenção e estabilidade das aplicações
-        </p>
-      
-        <p style="margin-top:10px">
-          <b>Tecnologias utilizadas:</b> PHP, JavaScript, SQL, MySQL/PostgreSQL
-        </p>
-      </section>
-    
-    <section class="section" id="skills">
+    <section class="card section tilt reveal" id="case-uniara">
+      <h2>Case — Sistemas Internos (Uniara)</h2>
+      <p>
+        Para manter confidencialidade, descrevo aqui apenas <b>escopo</b> e <b>tipo de entrega</b> (sem dados, telas específicas ou informações internas).
+      </p>
+
+      <p style="margin-top:10px">
+        <b>Principais atividades:</b><br>
+        • Melhorias e ajustes em interfaces web usadas por áreas administrativas<br>
+        • Implementação de funcionalidades conforme demandas internas<br>
+        • Correções, manutenção e apoio à estabilidade das aplicações
+      </p>
+
+      <p style="margin-top:10px">
+        <b>Tecnologias:</b> PHP, JavaScript, SQL, MySQL/PostgreSQL
+      </p>
+    </section>
+
+    <section class="card section tilt reveal" id="skills">
       <h2>Skills</h2>
       <p>
         PHP • JavaScript • SQL • MySQL • PostgreSQL • HTML/CSS • Manutenção de Sistemas • Integrações • UI/Usabilidade
-      </p>      
+      </p>
     </section>
 
-    <section class="section" id="contato">
+    <section class="card section tilt reveal" id="contato">
       <h2>Contato</h2>
       <p>
-        <b>Email:</b> jeffersonhlcaria@gmail.com <br>
-        <b>Cidade:</b> Araraquara — SP <br><br>
+        <b>Email:</b> jeffersonhlcaria@gmail.com<br>
+        <b>Cidade:</b> Araraquara — SP
       </p>
 
       <div class="cta" style="margin-top:14px">
-        <a class="btn primary" href="mailto:jeffersonhlcaria@gmail.com?subject=Contato%20-%20Portf%C3%B3lio%20Jefferson%20Lopes">
+        <a class="btn primary" href="mailto:jeffersonhlcaria@gmail.com?subject=Contato%20via%20Portfólio%20Jefferson%20Lopes&body=Olá%20Jefferson,%20vi%20seu%20portfólio%20e%20gostaria%20de%20conversar.">
           Enviar email
         </a>
         <a class="btn" href="#topo">Voltar ao topo</a>
       </div>
     </section>
 
-    <footer>
+    <footer class="reveal">
       © <span id="year"></span> Jefferson Lopes • Portfólio
     </footer>
   </div>
@@ -520,7 +530,7 @@
     // ano automático
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // smooth scroll
+    // smooth scroll (somente âncoras)
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
       a.addEventListener("click", (e)=>{
         const id = a.getAttribute("href");
@@ -531,6 +541,50 @@
         el.scrollIntoView({behavior:"smooth", block:"start"});
       });
     });
+
+    // Scroll reveal com rotação leve
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add("show");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach(el=> io.observe(el));
+
+    // 3D tilt no hover (cards)
+    const MAX = 10; // intensidade (graus)
+    function bindTilt(el){
+      el.addEventListener("mousemove", (e)=>{
+        const r = el.getBoundingClientRect();
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
+        const rx = ((y / r.height) - 0.5) * -MAX;
+        const ry = ((x / r.width) - 0.5) * MAX;
+
+        el.style.setProperty("--mx", `${(x/r.width)*100}%`);
+        el.style.setProperty("--my", `${(y/r.height)*100}%`);
+
+        el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+        el.style.boxShadow = "0 18px 70px rgba(0,0,0,.45)";
+      });
+
+      el.addEventListener("mouseleave", ()=>{
+        el.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0)";
+        el.style.boxShadow = "";
+      });
+    }
+    document.querySelectorAll(".tilt").forEach(bindTilt);
+
+    // Efeito extra no scroll: leve “parallax” no hero (sutil)
+    const hero = document.querySelector(".hero");
+    window.addEventListener("scroll", ()=>{
+      const y = window.scrollY || 0;
+      const amt = Math.min(18, y * 0.03); // limite
+      hero.style.transform = `translateY(${amt}px)`;
+    }, { passive:true });
   </script>
 </body>
 </html>
