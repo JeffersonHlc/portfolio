@@ -1,591 +1,237 @@
 <!doctype html>
-<html lang="pt-br">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Jefferson Lopes | Desenvolvedor Web</title>
-  <meta name="description" content="Portfólio de Jefferson Lopes — Desenvolvedor Web (PHP, JavaScript, SQL). Foco em interfaces, sistemas e dados." />
-
-  <style>
-    :root{
-      /* Monocromático premium */
-      --bg0:#07090F;      /* preto azulado */
-      --bg1:#0B0F1A;      /* profundidade */
-      --ice:#EAF0FF;      /* branco gelo */
-      --text:#EAF0FF;
-      --muted:rgba(234,240,255,.70);
-      --muted2:rgba(234,240,255,.55);
-      --line:rgba(255,255,255,.10);
-
-      /* “accent” bem discreto (cinza frio) */
-      --acc1:rgba(255,255,255,.08);
-      --acc2:rgba(255,255,255,.03);
-
-      --r:18px;
-      --shadow: 0 18px 70px rgba(0,0,0,.55);
-
-      --ease: cubic-bezier(.2,.9,.2,1);
-    }
-
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text);
-      overflow-x:hidden;
-
-      /* fundo monocromático com gradiente */
-      background:
-        radial-gradient(1000px 650px at 15% 10%, rgba(255,255,255,.06), transparent 60%),
-        radial-gradient(900px 550px at 85% 18%, rgba(255,255,255,.05), transparent 62%),
-        radial-gradient(900px 650px at 50% 95%, rgba(255,255,255,.04), transparent 60%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
-    }
-
-    /* “aurora” monocromática discreta */
-    body::before{
-      content:"";
-      position:fixed; inset:-60px;
-      pointer-events:none;
-      z-index:0;
-      background:
-        radial-gradient(700px 300px at 20% 25%, rgba(255,255,255,.08), transparent 62%),
-        radial-gradient(650px 300px at 78% 25%, rgba(255,255,255,.06), transparent 62%),
-        radial-gradient(600px 380px at 55% 75%, rgba(255,255,255,.05), transparent 60%);
-      filter: blur(10px);
-      opacity:.9;
-      animation: aurora 12s ease-in-out infinite alternate;
-    }
-    @keyframes aurora{
-      0%{ transform: translate3d(-1.2%,-1%,0) scale(1.02); }
-      100%{ transform: translate3d(1.2%,1%,0) scale(1.05); }
-    }
-
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:1100px; margin:0 auto; padding:26px 18px 64px; position:relative; z-index:2;}
-
-    /* TOP NAV */
-    .nav{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:14px; padding:12px 14px;
-      border:1px solid var(--line);
-      border-radius:999px;
-
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-      backdrop-filter: blur(14px);
-      box-shadow: 0 12px 40px rgba(0,0,0,.35);
-
-      position:sticky; top:14px; z-index:20;
-      transform: translateZ(0);
-    }
-    .brand{display:flex; align-items:center; gap:10px; font-weight:750; letter-spacing:.2px;}
-    .dot{
-      width:10px; height:10px; border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,255,255,.25));
-      box-shadow: 0 0 18px rgba(255,255,255,.18);
-    }
-    .links{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
-    .chip{
-      padding:8px 12px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      color:var(--muted);
-      font-size:13px;
-      transition: .2s var(--ease);
-      background: rgba(255,255,255,.02);
-    }
-    .chip:hover{
-      color: var(--text);
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.05);
-      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
-    }
-
-    /* “Cards” base + 3D */
-    .card{
-      border:1px solid var(--line);
-      border-radius: var(--r);
-      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-      box-shadow: 0 12px 40px rgba(0,0,0,.25);
-      position:relative;
-      overflow:hidden;
-      transform-style: preserve-3d;
-      transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
-    }
-
-    /* brilho sutil no card */
-    .card::after{
-      content:"";
-      position:absolute; inset:-2px;
-      background:
-        radial-gradient(500px 220px at var(--mx,50%) var(--my,30%), rgba(255,255,255,.09), transparent 60%);
-      opacity:0;
-      transition: opacity .25s var(--ease);
-      pointer-events:none;
-      mix-blend-mode: screen;
-    }
-    .card:hover::after{ opacity:1; }
-
-    /* HERO */
-    .hero{ margin-top:18px; border-radius: calc(var(--r) + 10px); }
-    .hero-inner{
-      padding:38px 22px;
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:18px;
-      align-items:center;
-    }
-    .kicker{
-      display:inline-flex; align-items:center; gap:10px;
-      font-size:13px; color:var(--muted);
-      padding:8px 12px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      width:max-content;
-      background: rgba(0,0,0,.18);
-    }
-    .pulse{
-      width:8px;height:8px;border-radius:50%;
-      background: rgba(255,255,255,.85);
-      box-shadow: 0 0 12px rgba(255,255,255,.18);
-      animation: pulse 1.7s infinite ease-in-out;
-    }
-    @keyframes pulse{
-      0%,100%{transform:scale(1); opacity:1}
-      50%{transform:scale(1.35); opacity:.62}
-    }
-    h1{
-      margin:14px 0 10px;
-      font-size: clamp(28px, 3.8vw, 46px);
-      line-height:1.06;
-      letter-spacing:-.6px;
-    }
-    .accent{
-      background: linear-gradient(135deg, rgba(255,255,255,.96), rgba(255,255,255,.35));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-      font-weight:900;
-    }
-    .subtitle{
-      margin:0;
-      color:var(--muted);
-      font-size: 15.6px;
-      line-height:1.65;
-      max-width: 64ch;
-    }
-    .high{ color:var(--text); font-weight:750; }
-
-    .cta{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-top:18px;
-    }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      gap:10px;
-      padding:11px 14px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      color:var(--text);
-      font-weight:700;
-      font-size:14px;
-      transition:.2s var(--ease);
-      cursor:pointer;
-      transform: translateZ(0);
-    }
-    .btn:hover{
-      transform: translateY(-2px);
-      background: rgba(255,255,255,.07);
-      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
-    }
-    .btn.primary{
-      background: linear-gradient(135deg, rgba(255,255,255,.92), rgba(255,255,255,.25));
-      color: #05070D;
-      border: 0;
-      box-shadow:
-        0 16px 40px rgba(0,0,0,.35),
-        0 0 0 4px rgba(255,255,255,.08);
-    }
-    .btn.primary:hover{ box-shadow: 0 18px 48px rgba(0,0,0,.38), 0 0 0 5px rgba(255,255,255,.10); }
-    .btn svg{width:16px; height:16px; opacity:.95}
-
-    /* right “destaques” */
-    .cardRight{ padding:16px; }
-    .miniTitle{
-      color:var(--muted2);
-      font-size:12px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      margin:0 0 10px;
-    }
-    .list{ margin:0; padding:0; list-style:none; display:grid; gap:10px; }
-    .li{
-      display:flex; align-items:flex-start; gap:10px;
-      padding:10px 10px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.16);
-    }
-    .badge{
-      width:28px; height:28px;
-      display:grid; place-items:center;
-      border-radius:10px;
-      background: linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
-      border:1px solid rgba(255,255,255,.10);
-      flex: 0 0 auto;
-    }
-    .li b{display:block; font-size:13.8px}
-    .li span{display:block; margin-top:2px; color:var(--muted); font-size:13px; line-height:1.35}
-
-    /* SECTIONS */
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:14px;
-      margin-top:16px;
-    }
-    .section{ margin-top:16px; padding: 16px; }
-    .section h2{ margin:0 0 10px; font-size:18px; letter-spacing:.2px; }
-    .section p{ margin:0; color:var(--muted); line-height:1.7; font-size:14.7px; }
-
-    /* Projetos */
-    .projects{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:12px;
-    }
-    .proj{ padding:14px; min-height: 170px; }
-    .proj h3{ margin:0 0 8px; font-size:15.6px; }
-    .proj p{ margin:0; color:var(--muted); font-size:13.9px; line-height:1.55; }
-    .tagrow{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
-    .tag{
-      font-size:12px;
-      color:var(--muted);
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.12);
-    }
-    .proj a{
-      display:inline-flex;
-      margin-top:12px;
-      color: rgba(255,255,255,.92);
-      font-weight:750;
-      font-size:13.5px;
-      gap:8px;
-      align-items:center;
-      opacity:.9;
-    }
-    .proj a:hover{opacity:1}
-
-    /* Footer */
-    footer{
-      margin-top:22px;
-      color: var(--muted2);
-      text-align:center;
-      font-size:13px;
-      padding: 16px 6px;
-      opacity:.9;
-    }
-
-    /* Scroll reveal */
-    .reveal{
-      opacity:0;
-      transform: translateY(18px) rotateX(8deg);
-      transform-origin: 50% 60%;
-      transition: opacity .7s var(--ease), transform .7s var(--ease);
-      will-change: transform, opacity;
-    }
-    .reveal.show{
-      opacity:1;
-      transform: translateY(0) rotateX(0);
-    }
-
-    /* 3D hover tilt (aplica em cards) */
-    .tilt{ will-change: transform; }
-
-    /* Responsivo */
-    @media (max-width: 920px){
-      .hero-inner{grid-template-columns: 1fr; padding:28px 18px}
-      .projects{grid-template-columns: 1fr}
-      .grid{grid-template-columns: 1fr}
-      .links{display:none}
-    }
-  </style>
-</head>
-
-<body>
-  <div class="wrap">
-
-    <div class="nav reveal">
-      <div class="brand">
-        <span class="dot"></span>
-        <span>Jefferson Lopes</span>
-      </div>
-      <div class="links">
-        <a class="chip" href="#sobre">Sobre</a>
-        <a class="chip" href="#experiencia">Experiência</a>
-        <a class="chip" href="#formacao">Formação</a>
-        <a class="chip" href="#projetos">Projetos</a>
-        <a class="chip" href="#skills">Skills</a>
-        <a class="chip" href="#contato">Contato</a>
-      </div>
-    </div>
-
-    <section class="card hero tilt reveal" id="topo">
-      <div class="hero-inner">
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>Jefferson Lopes — Desenvolvedor Full Stack</title>
+    <meta
+      name="description"
+      content="Jefferson Lopes, desenvolvedor full stack na UNIARA. Sistemas corporativos com PHP, JavaScript e SQL."
+    />
+    <link rel="canonical" href="https://jeffersonhlc.github.io/portfolio/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta
+      property="og:title"
+      content="Jefferson Lopes — Desenvolvedor Full Stack"
+    />
+    <meta
+      property="og:description"
+      content="Conheça minha atuação no desenvolvimento de sistemas corporativos com PHP, JavaScript e SQL."
+    />
+    <meta
+      property="og:url"
+      content="https://jeffersonhlc.github.io/portfolio/"
+    />
+    <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script src="assets/js/main.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="site-header container">
+      <a class="brand" href="#inicio" aria-label="Jefferson Lopes, início"
+        >Jefferson Lopes<span aria-hidden="true">.</span></a
+      >
+      <nav aria-label="Navegação principal">
+        <a href="#trabalho">Trabalho</a><a href="#sobre">Sobre</a
+        ><a href="#contato">Contato <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+    <main id="conteudo">
+      <section class="hero container" id="inicio" aria-labelledby="titulo">
         <div>
-          <div class="kicker"><span class="pulse"></span> Web/Plataformas • SP</div>
-
-          <h1>
-            Desenvolvedor <span class="accent">Web</span> focado em
-            <span class="high">interfaces</span>, <span class="high">sistemas</span> e <span class="high">dados</span>.
-          </h1>
-
-          <p class="subtitle">
-            Trabalho com <span class="high">PHP</span>, <span class="high">JavaScript</span> e <span class="high">SQL</span>
-            em aplicações web e sistemas internos — aprendendo e evoluindo na construção de soluções
-            <span class="high">simples</span>, <span class="high">organizadas</span> e <span class="high">fáceis de manter</span> para demandas reais.
+          <p class="eyebrow">Desenvolvedor Full Stack · Araraquara, SP</p>
+          <h1 id="titulo">Da interface<br />à regra de <em>negócio.</em></h1>
+          <p class="hero-description">
+            Sou Jefferson Lopes. Trabalho no desenvolvimento de um sistema
+            corporativo da UNIARA, conectando interfaces, lógica de aplicação e
+            banco de dados.
           </p>
-
-          <div class="cta">
-            <a class="btn primary" href="#projetos">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-              Ver projetos
-            </a>
-
-            <a class="btn" href="mailto:jeffersonhlcaria@gmail.com?subject=Contato%20via%20Portfólio%20Jefferson%20Lopes&body=Olá%20Jefferson,%20vi%20seu%20portfólio%20e%20gostaria%20de%20conversar.">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M4 7h16v10H4V7Z" stroke="currentColor" stroke-width="2" />
-                <path d="m4 8 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              Email
-            </a>
-
-            <a class="btn" href="https://www.linkedin.com/in/jeffersonhlopes" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M6.5 9.5V18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M6.5 6.5h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                <path d="M10 18v-4.5c0-1.9 1.1-3 2.7-3 1.6 0 2.3 1.1 2.3 2.9V18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-              LinkedIn
-            </a>
+          <div class="hero-actions">
+            <a class="button" href="#trabalho"
+              >Conheça meu trabalho <span aria-hidden="true">↓</span></a
+            >
+            <a class="text-link" href="https://github.com/JeffersonHlc"
+              >GitHub <span aria-hidden="true">↗</span></a
+            >
           </div>
         </div>
-
-        <aside class="card cardRight tilt reveal">
-          <p class="miniTitle">Destaques</p>
-          <ul class="list">
-            <li class="li">
-              <span class="badge">💻</span>
-              <div>
-                <b>Web (Front + Back)</b>
-                <span>Interfaces e manutenção de sistemas com foco em clareza, consistência e usabilidade.</span>
-              </div>
-            </li>
-            <li class="li">
-              <span class="badge">🗄️</span>
-              <div>
-                <b>SQL / Banco de Dados</b>
-                <span>Consultas, relatórios e suporte a melhorias de dados (MySQL/PostgreSQL).</span>
-              </div>
-            </li>
-            <li class="li">
-              <span class="badge">📌</span>
-              <div>
-                <b>Processo & Produto</b>
-                <span>Experiência administrativa ajuda a entender rotinas reais e transformar em solução.</span>
-              </div>
-            </li>
-          </ul>
+        <aside class="profile-note" aria-label="Resumo profissional">
+          <span class="note-index" aria-hidden="true">JL /</span>
+          <p class="eyebrow">Atuação atual</p>
+          <p class="note-title">Sistemas que fazem<br />parte da rotina.</p>
+          <p class="note-description">
+            Desenvolvimento web para processos administrativos internos.
+          </p>
+          <dl>
+            <div>
+              <dt>Instituição</dt>
+              <dd>UNIARA</dd>
+            </div>
+            <div>
+              <dt>Principais tecnologias</dt>
+              <dd>PHP · JavaScript · SQL</dd>
+            </div>
+            <div>
+              <dt>Formação</dt>
+              <dd>Sistemas de Informação</dd>
+            </div>
+          </dl>
         </aside>
-      </div>
-    </section>
-
-    <div class="grid">
-      <section class="card section tilt reveal" id="sobre">
-        <h2>Sobre</h2>
-        <p>
-          Sou Desenvolvedor Web Júnior na <b>Universidade de Araraquara - Uniara</b>, atuando com manutenção e evolução de sistemas internos,
-          melhoria de interfaces e suporte a banco de dados.<br><br>
-          Minha trajetória é construída com evolução contínua dentro da mesma instituição:
-          <b>8 anos</b> como <b>Auxiliar Administrativo / Arquivista</b> (organização documental, processos e rotinas),
-          até a transição para desenvolvimento — unindo visão de negócio com tecnologia.<br>
-          Estou em início de carreira como desenvolvedor e busco crescer rápido com boas práticas, feedback e projetos reais.
-        </p>
       </section>
-
-      <section class="card section tilt reveal" id="experiencia">
-        <h2>Experiência</h2>
-        <p>
-          <b>Uniara — Desenvolvedor Web Júnior (Front-end e Back-end)</b><br>
-          Desenvolvimento e manutenção de sistemas internos, criação/melhoria de telas, correções, novas funcionalidades e apoio a consultas SQL e relatórios.<br><br>
-          <b>Uniara — Auxiliar Administrativo / Arquivista (8 anos)</b><br>
-          Rotinas administrativas, organização e controle de documentos, padronização de processos e apoio às áreas usuárias.
-        </p>
+      <section
+        class="work section container"
+        id="trabalho"
+        aria-labelledby="trabalho-titulo"
+      >
+        <div class="section-heading">
+          <p class="eyebrow">01 / Trabalho</p>
+          <h2 id="trabalho-titulo">
+            Desenvolvimento aplicado<br />a processos reais.
+          </h2>
+        </div>
+        <article class="project" aria-labelledby="projeto-titulo">
+          <div class="project-overview">
+            <p class="eyebrow">Experiência profissional · UNIARA</p>
+            <h3 id="projeto-titulo">Sistema corporativo</h3>
+            <p>
+              Atuação no desenvolvimento e na manutenção de funcionalidades
+              utilizadas por setores administrativos da Universidade de
+              Araraquara.
+            </p>
+            <ul class="tags">
+              <li>PHP</li>
+              <li>JavaScript</li>
+              <li>SQL</li>
+              <li>Bootstrap</li>
+              <li>jQuery</li>
+            </ul>
+            <p class="project-caption">
+              Sistema de uso interno. Apresentação descritiva da minha atuação.
+            </p>
+          </div>
+          <div class="project-details">
+            <div>
+              <h4>Contexto</h4>
+              <p>
+                Processos de solicitações, compras e entregas envolvem
+                informações e etapas compartilhadas entre diferentes setores.
+              </p>
+            </div>
+            <div>
+              <h4>Minha atuação</h4>
+              <p>
+                Desenvolvimento de interfaces, implementação de regras de
+                negócio em PHP e consultas SQL para integrar as funcionalidades
+                aos dados do sistema.
+              </p>
+            </div>
+            <div>
+              <h4>Frentes de trabalho</h4>
+              <ul class="detail-list">
+                <li>Telas de consulta, formulários e filtros.</li>
+                <li>Funcionalidades para solicitações e gestão de compras.</li>
+                <li>Manutenção de fluxos relacionados a itens e entregas.</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+        <a
+          class="text-link repository-link"
+          href="https://github.com/JeffersonHlc/portfolio"
+          >Veja também o código deste portfólio
+          <span aria-hidden="true">↗</span></a
+        >
       </section>
-    </div>
-
-    <section class="card section tilt reveal" id="formacao">
-      <h2>Formação</h2>
-      <p>
-        <b>Sistemas de Informação</b> — conclusão do curso 2025.<br>
-        Construindo base em desenvolvimento web e bancos de dados, aplicando em projetos e rotinas do dia a dia.
-    </section>
-
-    <section class="card section tilt reveal" id="projetos">
-      <h2>Projetos</h2>
-      <p>
-        Uma seleção objetiva do que faço no dia a dia (sem expor dados internos) e do que construo por conta.
-      </p>
-
-      <div class="projects">
-        <div class="card proj tilt reveal">
-          <h3>Portal / Rotinas Internas (Uniara)</h3>
-          <p>
-            Atuação na evolução de sistemas internos corporativos, com foco em melhoria de interfaces,
-            implementação de funcionalidades e suporte a consultas em banco de dados — sempre preservando confidencialidade.
-          </p>
-          <div class="tagrow">
-            <span class="tag">PHP</span><span class="tag">JavaScript</span><span class="tag">SQL</span>
-          </div>
-          <a href="#case-uniara">Ver detalhes ↗</a>
+      <section
+        class="about section container"
+        id="sobre"
+        aria-labelledby="sobre-titulo"
+      >
+        <div class="section-heading">
+          <p class="eyebrow">02 / Sobre</p>
+          <h2 id="sobre-titulo">
+            Formação em tecnologia.<br />Experiência no dia a dia.
+          </h2>
         </div>
-
-        <div class="card proj tilt reveal">
-          <h3>Portfólio (este site)</h3>
-          <p>
-            Página estática com foco em performance e apresentação profissional, usando animações suaves e layout em cards.
-          </p>
-          <div class="tagrow">
-            <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span>
+        <div class="about-layout">
+          <div class="about-copy">
+            <p>
+              Sou desenvolvedor web júnior, com atuação full stack na UNIARA.
+              Trabalho tanto na construção de interfaces quanto no
+              desenvolvimento do back-end e no acesso ao banco de dados.
+            </p>
+            <p>
+              Meu trabalho está ligado às necessidades de um sistema
+              corporativo: entender o processo, implementar a funcionalidade e
+              manter a integração entre as partes da aplicação.
+            </p>
+            <a
+              class="text-link"
+              href="https://www.linkedin.com/in/jeffersonhlopes"
+              >Minha trajetória no LinkedIn <span aria-hidden="true">↗</span></a
+            >
           </div>
-          <a href="https://jeffersonhlc.github.io/portfolio/" target="_blank" rel="noopener">Abrir o site ↗</a>
-        </div>
-
-        <div class="card proj tilt reveal">
-          <h3>Projeto de Estudo: Dashboard</h3>
-          <p>
-            Mini-dashboard com tabelas e filtros para treinar front + SQL e organizar dados de forma clara.
-          </p>
-          <div class="tagrow">
-            <span class="tag">JS</span><span class="tag">SQL</span><span class="tag">UI</span>
+          <div class="credentials">
+            <div class="credential">
+              <p class="eyebrow">Formação acadêmica</p>
+              <h3>Bacharelado em Sistemas de Informação</h3>
+              <p>Universidade de Araraquara — UNIARA</p>
+              <p class="credential-meta">Conclusão em dezembro de 2025</p>
+            </div>
+            <div class="credential">
+              <p class="eyebrow">Ferramentas de trabalho</p>
+              <dl class="skills">
+                <div>
+                  <dt>Front-end</dt>
+                  <dd>HTML, CSS, JavaScript, Bootstrap e jQuery</dd>
+                </div>
+                <div>
+                  <dt>Back-end</dt>
+                  <dd>PHP</dd>
+                </div>
+                <div>
+                  <dt>Dados</dt>
+                  <dd>SQL</dd>
+                </div>
+              </dl>
+            </div>
           </div>
-          <a href="#contato">Quero montar esse ↗</a>
         </div>
-      </div>
-    </section>
-
-    <section class="card section tilt reveal" id="case-uniara">
-      <h2>Case — Sistemas Internos (Uniara)</h2>
-      <p>
-        Para manter confidencialidade, descrevo aqui apenas <b>escopo</b> e <b>tipo de entrega</b> (sem dados, telas específicas ou informações internas).
-      </p>
-
-      <p style="margin-top:10px">
-        <b>Principais atividades:</b><br>
-        • Melhorias e ajustes em interfaces web usadas por áreas administrativas<br>
-        • Implementação de funcionalidades conforme demandas internas<br>
-        • Correções, manutenção e apoio à estabilidade das aplicações
-      </p>
-
-      <p style="margin-top:10px">
-        <b>Tecnologias:</b> PHP, JavaScript, SQL, MySQL/PostgreSQL
-      </p>
-    </section>
-
-    <section class="card section tilt reveal" id="skills">
-      <h2>Skills</h2>
-      <p>
-        PHP • JavaScript • SQL • MySQL • PostgreSQL • HTML/CSS • Manutenção de Sistemas • Integrações • UI/Usabilidade
-      </p>
-    </section>
-
-    <section class="card section tilt reveal" id="contato">
-      <h2>Contato</h2>
-      <p>
-        <b>Email:</b> jeffersonhlcaria@gmail.com<br>
-        <b>Cidade:</b> Araraquara — SP
-      </p>
-
-      <div class="cta" style="margin-top:14px">
-        <a class="btn primary" href="mailto:jeffersonhlcaria@gmail.com?subject=Contato%20via%20Portfólio%20Jefferson%20Lopes&body=Olá%20Jefferson,%20vi%20seu%20portfólio%20e%20gostaria%20de%20conversar.">
-          Enviar email
-        </a>
-        <a class="btn" href="#topo">Voltar ao topo</a>
-      </div>
-    </section>
-
-    <footer class="reveal">
-      © <span id="year"></span> Jefferson Lopes • Portfólio
+      </section>
+      <section
+        class="contact section"
+        id="contato"
+        aria-labelledby="contato-titulo"
+      >
+        <div class="container contact-layout">
+          <div>
+            <p class="eyebrow">03 / Contato</p>
+            <h2 id="contato-titulo">Vamos conversar?</h2>
+            <p>
+              Para conversar sobre desenvolvimento, projetos ou oportunidades
+              profissionais.
+            </p>
+          </div>
+          <div class="contact-links">
+            <a href="mailto:jeffersonhlcaria@gmail.com"
+              >jeffersonhlcaria@gmail.com <span aria-hidden="true">↗</span></a
+            >
+            <a href="https://www.linkedin.com/in/jeffersonhlopes"
+              >LinkedIn <span aria-hidden="true">↗</span></a
+            >
+            <a href="https://github.com/JeffersonHlc"
+              >GitHub <span aria-hidden="true">↗</span></a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer container">
+      <p>© <span data-current-year>2026</span> Jefferson Lopes</p>
+      <a href="#inicio">Voltar ao início <span aria-hidden="true">↑</span></a>
     </footer>
-  </div>
-
-  <script>
-    // ano automático
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // smooth scroll (somente âncoras)
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener("click", (e)=>{
-        const id = a.getAttribute("href");
-        if(!id || id === "#") return;
-        const el = document.querySelector(id);
-        if(!el) return;
-        e.preventDefault();
-        el.scrollIntoView({behavior:"smooth", block:"start"});
-      });
-    });
-
-    // Scroll reveal com rotação leve
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.classList.add("show");
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    document.querySelectorAll(".reveal").forEach(el=> io.observe(el));
-
-    // 3D tilt no hover (cards)
-    const MAX = 10; // intensidade (graus)
-    function bindTilt(el){
-      el.addEventListener("mousemove", (e)=>{
-        const r = el.getBoundingClientRect();
-        const x = e.clientX - r.left;
-        const y = e.clientY - r.top;
-        const rx = ((y / r.height) - 0.5) * -MAX;
-        const ry = ((x / r.width) - 0.5) * MAX;
-
-        el.style.setProperty("--mx", `${(x/r.width)*100}%`);
-        el.style.setProperty("--my", `${(y/r.height)*100}%`);
-
-        el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
-        el.style.boxShadow = "0 18px 70px rgba(0,0,0,.45)";
-      });
-
-      el.addEventListener("mouseleave", ()=>{
-        el.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0)";
-        el.style.boxShadow = "";
-      });
-    }
-    document.querySelectorAll(".tilt").forEach(bindTilt);
-
-    // Efeito extra no scroll: leve “parallax” no hero (sutil)
-    const hero = document.querySelector(".hero");
-    window.addEventListener("scroll", ()=>{
-      const y = window.scrollY || 0;
-      const amt = Math.min(18, y * 0.03); // limite
-      hero.style.transform = `translateY(${amt}px)`;
-    }, { passive:true });
-  </script>
-</body>
+  </body>
 </html>
-
